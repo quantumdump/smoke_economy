@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>  </title>
+	<script src="js/vue.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+<body>
+<div id="app">
+	<div class="container col-sm-12">	
+		<div class="row justify-content-center">
+	<div class="card text-center col-md-6">
+		<div class="card-header">
+			<h3>{{title}}</h3>
+		</div>
+		<div class="card-body">
+			<div class="form">
+				<div class="form-group">
+					<label for="packPrice">Your preferred cigarettes pack price(standard 20 cigarettes pack)</label>
+					<br>
+					<input id="packPrice" type="number" min="1" max="30" v-model="packPrice">$
+				</div>
+				<hr>
+				<div class="form-group">
+					<label for="cigarettesPerDay">How many cigarettes per day do you smoke?</label>
+					<br>
+					<input id="cigarettesPerDay" type="range" min="1" max="80" v-model="cigarettesPerDay">
+					<p>{{cigarettesPerDay}} cigs per day</p>
+				</div>
+				<hr>
+				<div class="form-group">
+					<button class="btn-primary" @click="calculateSavedMoneyPer">Calculate</button>
+				</div>
+				<hr>
+			</div>
+		</div>
+		<div class="card-footer" v-if="clicked">
+			You can:
+			<p>Save per day: {{calculateSavedMoneyPer()[0]}}$</p>
+			<p>Save per month: {{calculateSavedMoneyPer()[1]}}$</p>
+			<p>Save per year: {{calculateSavedMoneyPer()[2]}}$</p>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+<script>
+	var app = new Vue({
+		el: '#app',
+		data:{
+			clicked:false,
+			packPrice: 5,
+			cigarettesPerDay: 1,
+			title: 'Save money on quitting smoking'
+
+		},
+		methods:{
+			calculateSavedMoneyPer(){
+				let results = [];
+				priceOfOneCigarette = this.packPrice/20;
+				potentialMoneySavedPerDay = priceOfOneCigarette*this.cigarettesPerDay;
+				results[0] = Number.parseFloat(potentialMoneySavedPerDay).toFixed(2);
+				potentialMoneySavedPerMonth = potentialMoneySavedPerDay*30;
+				results[1] = Number.parseFloat(potentialMoneySavedPerMonth).toFixed(2);
+				potentialMoneySavedPerYear = potentialMoneySavedPerDay*365;
+				results[2] = Number.parseFloat(potentialMoneySavedPerYear).toFixed(2);
+				this.clicked=true;
+				return results;
+
+			}
+			
+		}
+	});
+
+
+
+
+
+
+	///////////////////Add js in order JQuery, Popper, bootstrap
+</script>
+<script src="js/jquery-3.4.1.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.js"></script>
+</body>
+</html>
